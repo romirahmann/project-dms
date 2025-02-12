@@ -6,11 +6,15 @@ const routesData = require("./routes.data.json");
 const UserController = require("../../controllers/master_controller/UserController");
 const CabinetController = require("../../controllers/master_controller/CabinetController");
 const SettingController = require("../../controllers/master_controller/SettingController");
+const PermissionController = require("../../controllers/master_controller/PermissionController");
+const ClassificationController = require("../../controllers/master_controller/ClassificationController");
 
 const controllers = {
   UserController,
   CabinetController,
   SettingController,
+  PermissionController,
+  ClassificationController,
 };
 
 const routeSchema = Joi.object({

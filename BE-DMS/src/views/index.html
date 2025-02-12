@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="../public/icon/api.svg" type="image/svg+xml" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css"
+    />
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
 
@@ -26,7 +32,10 @@
         <div class="typing-container text-white text-4xl font-bold"></div>
       </div>
 
-      <table class="w-full text-left table-auto min-w-max bg-white">
+      <table
+        id="dataTable"
+        class="w-full text-left table-auto min-w-max bg-white mb-5"
+      >
         <thead>
           <tr class="border-b border-slate-300 bg-slate-50">
             <th class="font-bold p-4 text-sm leading-none text-slate-500">
@@ -68,10 +77,9 @@
 
       typeEffect();
 
-      // Fetch Data dari JSON
       async function fetchData() {
         try {
-          const response = await fetch("/api/routes-data"); // Ambil data dari file JSON
+          const response = await fetch("/api/routes-data");
           const data = await response.json();
           populateTable(data);
         } catch (error) {
@@ -81,7 +89,7 @@
 
       function populateTable(data) {
         const tableBody = document.getElementById("table-body");
-        tableBody.innerHTML = ""; // Kosongkan tabel sebelum diisi
+        tableBody.innerHTML = "";
 
         data.forEach((item, index) => {
           const row = document.createElement("tr");
@@ -104,9 +112,37 @@
 
           tableBody.appendChild(row);
         });
+
+        // Inisialisasi DataTable dengan konfigurasi
+        new DataTable("#dataTable", {
+          paging: true,
+          searching: true,
+          ordering: true,
+          info: true,
+          lengthMenu: [10, 20, 50, 100],
+          columnDefs: [
+            { targets: 0, orderable: false },
+            { targets: 1, className: "text-center" },
+          ],
+          language: {
+            search: "Cari:",
+            lengthMenu: "Tampilkan _MENU_ API",
+            info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ API",
+            infoEmpty: "Tidak ada data tersedia",
+            paginate: {
+              next: "Berikutnya",
+              previous: "Sebelumnya",
+            },
+          },
+          dom:
+            "<'flex justify-between mb-3 bg-gray-200 p-3 rounded-md'<'length-selector'l><'search-box me-4 rounded-xl'f>>" +
+            "<'overflow-x-auto'<'table-container'tr>>" +
+            "<'flex items-center justify-between bg-gray-200 p-3 rounded-md mt-5'<'info-text'i><'pagination-nav'p>>",
+        });
       }
 
-      fetchData(); // Panggil fungsi untuk mengambil data JSON saat halaman dimuat
+      fetchData();
     </script>
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.min.js"></script>
   </body>
 </html>

@@ -98,5 +98,83 @@
     "path": "/setting-smtp",
     "method": "post",
     "controller": "SettingController.insertSettingSmtp"
+  },
+  {
+    "path": "/permissions",
+    "method": "get",
+    "controller": "PermissionController.getAllPermission"
+  },
+
+  {
+    "path": "/permission/:id",
+    "method": "get",
+    "controller": "PermissionController.getPermissionById"
+  },
+  {
+    "path": "/permission/:id",
+    "method": "put",
+    "controller": "PermissionController.updatePermission"
+  },
+  {
+    "path": "/permission",
+    "method": "post",
+    "controller": "PermissionController.insertPermission"
+  },
+  {
+    "path": "/permission/:id",
+    "method": "delete",
+    "controller": "PermissionController.deletePermission"
+  },
+  {
+    "path": "/types",
+    "method": "get",
+    "controller": "ClassificationController.getAllType"
+  },
+
+  {
+    "path": "/type/:id",
+    "method": "get",
+    "controller": "ClassificationController.getTypeById"
+  },
+  {
+    "path": "/type/:id",
+    "method": "put",
+    "controller": "ClassificationController.updateType"
+  },
+  {
+    "path": "/type",
+    "method": "post",
+    "controller": "ClassificationController.insertType"
+  },
+  {
+    "path": "/type/:id",
+    "method": "delete",
+    "controller": "ClassificationController.deleteType"
+  },
+  {
+    "path": "/classifications",
+    "method": "get",
+    "controller": "ClassificationController.getAllClassification"
+  },
+
+  {
+    "path": "/classification/:id",
+    "method": "get",
+    "controller": "ClassificationController.getClassificationById"
+  },
+  {
+    "path": "/classification/:id",
+    "method": "put",
+    "controller": "ClassificationController.updateClassification"
+  },
+  {
+    "path": "/classification",
+    "method": "post",
+    "controller": "ClassificationController.insertClassification"
+  },
+  {
+    "path": "/classification/:id",
+    "method": "delete",
+    "controller": "ClassificationController.deleteClassification"
   }
 ]
