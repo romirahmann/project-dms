@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const path = require("path");
 
 const mainRoutes = require("./src/routes/routes");
 
@@ -8,11 +9,17 @@ app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
+// Menyajikan file statis dari folder "views"
+app.use(express.static(path.join(__dirname, "src", "views")));
+app.use(express.static(path.join(__dirname, "src", "public")));
 app.get("/", (req, res) => {
-  res.status(200).json({
-    status: true,
-    service: "Backend Project Starter Kit",
-  });
+  res.sendFile(path.join(__dirname, "src", "views", "index.html"));
+});
+
+app.get("/api/routes-data", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "src/routes/master_routes/routes.data.json")
+  );
 });
 
 app.use("/api/", mainRoutes);

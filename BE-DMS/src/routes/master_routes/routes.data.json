@@ -3,5 +3,100 @@
     "path": "/register",
     "method": "post",
     "controller": "UserController.register"
+  },
+  {
+    "path": "/users",
+    "method": "get",
+    "controller": "UserController.getAllUser"
+  },
+  {
+    "path": "/user/:userId",
+    "method": "get",
+    "controller": "UserController.getUserById"
+  },
+  {
+    "path": "/user/:userId",
+    "method": "put",
+    "controller": "UserController.updateUser"
+  },
+  {
+    "path": "/grup",
+    "method": "post",
+    "controller": "UserController.insertGrup"
+  },
+  {
+    "path": "/grups",
+    "method": "get",
+    "controller": "UserController.getAllGrup"
+  },
+  {
+    "path": "/grup/:grupId",
+    "method": "get",
+    "controller": "UserController.getGrupById"
+  },
+  {
+    "path": "/grup/:grupId",
+    "method": "put",
+    "controller": "UserController.updateGrup"
+  },
+  {
+    "path": "/grup/:grupId",
+    "method": "delete",
+    "controller": "UserController.removeGrup"
+  },
+  {
+    "path": "/cabinets",
+    "method": "get",
+    "controller": "CabinetController.getAllCabinet"
+  },
+  {
+    "path": "/cabinet/:cabinetId",
+    "method": "get",
+    "controller": "CabinetController.getCabinetById"
+  },
+  {
+    "path": "/cabinet/:cabinetId",
+    "method": "put",
+    "controller": "CabinetController.updateCabinet"
+  },
+  {
+    "path": "/cabinet",
+    "method": "post",
+    "controller": "CabinetController.addCabinet"
+  },
+  {
+    "path": "/cabinet/:cabinetId",
+    "method": "delete",
+    "controller": "CabinetController.removeCabinet"
+  },
+  {
+    "path": "/setting-folder",
+    "method": "get",
+    "controller": "SettingController.getSettingFolder"
+  },
+  {
+    "path": "/setting-folder",
+    "method": "put",
+    "controller": "SettingController.updateSettingFolder"
+  },
+  {
+    "path": "/setting-folder",
+    "method": "post",
+    "controller": "SettingController.insertSettingFolder"
+  },
+  {
+    "path": "/setting-smtp",
+    "method": "get",
+    "controller": "SettingController.getSettingSmtp"
+  },
+  {
+    "path": "/setting-smtp",
+    "method": "put",
+    "controller": "SettingController.updateSettingSmtp"
+  },
+  {
+    "path": "/setting-smtp",
+    "method": "post",
+    "controller": "SettingController.insertSettingSmtp"
   }
 ]

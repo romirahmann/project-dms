@@ -1,7 +1,7 @@
-const argon2 = require("argon2");
 const model = require("../../models/auth.model");
 const api = require("../../tools/common");
 const { generateToken } = require("../../services/auth.service");
+const hashing = require("../../services/hashing.service");
 
 const login = async (req, res) => {
   const { username, password } = req.body;
@@ -11,31 +11,31 @@ const login = async (req, res) => {
   }
 
   let user = await model.login(username);
+
   if (user.length > 0) {
-    const passwordIsMacth = verifyPassword(password, user.password);
-    if (passwordIsMacth) {
+    user = user[0];
+
+    if (!user.password || typeof user.password !== "string") {
+      return api.error(res, "Invalid stored password", 500);
+    }
+
+    const passwordIsMatch = await hashing.verifyHash(password, user.password);
+    if (passwordIsMatch) {
       const payload = {
-        id: user.id,
+        id: user.userId,
         username: user.username,
-        roleId: user.role_id,
+        fullname: user.fullname,
+        email: user.email,
+        grupId: user.grupId,
+        grupName: user.grupName,
       };
       const token = generateToken(payload);
-      res.json({ token, user: user });
+      res.json({ token, user: payload });
     } else {
       return api.error(res, "Incorrect Password!", 400);
     }
   } else {
     return api.error(res, "Account Not Found", 404);
-  }
-};
-
-const verifyPassword = async (plainPassword, hashedPassword) => {
-  try {
-    const passwordIsMacth = await argon2.verify(hashedPassword, plainPassword);
-    return passwordIsMacth;
-  } catch (err) {
-    console.log("Error verifying password", err);
-    throw err;
   }
 };
 

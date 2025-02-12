@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../public/icon/api.svg" type="image/svg+xml" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
+
+    <style>
+      .typing-container {
+        font-size: 24px;
+        font-weight: bold;
+        border-right: 3px solid white;
+        white-space: nowrap;
+        overflow: hidden;
+        width: fit-content;
+      }
+    </style>
+
+    <title>WEB SERVICE | DMS</title>
+  </head>
+  <body class="bg-gray-800">
+    <div class="container-fluid h-screen bg-gray-800 p-10">
+      <div class="typing grid justify-center my-5">
+        <div class="typing-container text-white text-4xl font-bold"></div>
+      </div>
+
+      <table class="w-full text-left table-auto min-w-max bg-white">
+        <thead>
+          <tr class="border-b border-slate-300 bg-slate-50">
+            <th class="font-bold p-4 text-sm leading-none text-slate-500">
+              NO
+            </th>
+            <th class="font-bold p-4 text-sm leading-none text-slate-500">
+              METHOD
+            </th>
+            <th class="font-bold p-4 text-sm leading-none text-slate-500">
+              ENDPOINT
+            </th>
+            <th class="font-bold p-4 text-sm leading-none text-slate-500">
+              URL
+            </th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+
+    <script>
+      const text = "Server is Running ... ";
+      const typingContainer = document.querySelector(".typing-container");
+      let index = 0;
+
+      function typeEffect() {
+        if (index < text.length) {
+          typingContainer.textContent += text[index];
+          index++;
+          setTimeout(typeEffect, 100);
+        } else {
+          setTimeout(() => {
+            typingContainer.textContent = "";
+            index = 0;
+            typeEffect();
+          }, 2000);
+        }
+      }
+
+      typeEffect();
+
+      // Fetch Data dari JSON
+      async function fetchData() {
+        try {
+          const response = await fetch("/api/routes-data"); // Ambil data dari file JSON
+          const data = await response.json();
+          populateTable(data);
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+
+      function populateTable(data) {
+        const tableBody = document.getElementById("table-body");
+        tableBody.innerHTML = ""; // Kosongkan tabel sebelum diisi
+
+        data.forEach((item, index) => {
+          const row = document.createElement("tr");
+          row.classList.add("hover:bg-slate-50");
+
+          row.innerHTML = `
+            <td class="p-4 border-b border-slate-200 py-5">${index + 1}</td>
+            <td class="p-4 border-b border-slate-200 py-5">${item.method}</td>
+            <td class="p-4 border-b border-slate-200 py-5">
+              <p class="block font-semibold text-sm text-slate-800">${
+                item.path
+              }</p>
+            </td>
+            <td class="p-4 border-b border-slate-200 py-5">
+              <p class="text-sm text-slate-500">http://192.168.9.192:3000/api/master${
+                item.path
+              }</p>
+            </td>
+          `;
+
+          tableBody.appendChild(row);
+        });
+      }
+
+      fetchData(); // Panggil fungsi untuk mengambil data JSON saat halaman dimuat
+    </script>
+  </body>
+</html>

@@ -1,5 +1,5 @@
 const db = require("knex")({
-  client: "mysql",
+  client: "mysql2",
   connection: {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
