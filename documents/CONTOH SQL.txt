@@ -1,0 +1,12 @@
+syntax
+
+CREATE TABLE dms.tbl_typeData (
+	typeId INT auto_increment NOT NULL,
+	typeName varchar(255) NULL,
+	`length` int NULL,
+	isUnique BOOL DEFAULT 0 NULL,
+	CONSTRAINT tbl_typeData_pk PRIMARY KEY (typeId)
+)
+ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_0900_ai_ci;

@@ -176,5 +176,15 @@
     "path": "/classification/:id",
     "method": "delete",
     "controller": "ClassificationController.deleteClassification"
+  },
+  {
+    "path": "/structure/:classificationId",
+    "method": "post",
+    "controller": "ClassificationController.insertDataStructure"
+  },
+  {
+    "path": "/detail/:classificationId",
+    "method": "post",
+    "controller": "ClassificationController.insertTblDetail"
   }
 ]

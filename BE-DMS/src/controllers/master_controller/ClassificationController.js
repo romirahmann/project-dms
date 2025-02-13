@@ -19,10 +19,11 @@ const getClassificationById = async (req, res) => {
   }
 };
 const insertClassification = async (req, res) => {
-  const newType = req.body;
+  const newData = req.body;
   try {
-    let data = await model.insertClassification(newType);
-    return api.ok(res, data);
+    let classificationId = await model.insertClassification(newData);
+    let data = await model.addNewStructure(classificationId);
+    return api.ok(res, { messege: "Add Classification Successfully!" });
   } catch (error) {
     return api.error(res, error, 500);
   }
@@ -43,6 +44,46 @@ const deleteClassification = async (req, res) => {
   try {
     let data = await model.delClassification(id);
     return api.ok(res, data);
+  } catch (error) {
+    return api.error(res, error, 500);
+  }
+};
+
+const insertDataStructure = async (req, res) => {
+  const { classificationId } = req.params;
+  const newData = req.body;
+  const formatStructureName = (name) => {
+    return name.toLowerCase().replace(/\s+/g, "_");
+  };
+
+  try {
+    let structureIsExict = await model.structureExist(classificationId);
+
+    if (structureIsExict) {
+      let result = await model.insertDataStructure(classificationId, newData);
+      newData.name = formatStructureName(newData.name);
+      let detailIsExist = await model.detailExist(classificationId);
+      if (!detailIsExist) {
+        let result = await model.addDetail(classificationId, newData);
+        return api.ok(res, result);
+      } else {
+        let result = await model.insertDataDetail(classificationId, newData);
+        return api.ok(res, result);
+      }
+    } else {
+      return api.error(res, "Structure Not Found!", 400);
+    }
+  } catch (error) {
+    return api.error(res, error, 500);
+  }
+};
+
+const insertTblDetail = async (req, res) => {
+  const { classificationId } = req.params;
+  const data = req.body;
+  try {
+    let result = await model.insertDetail(classificationId, data);
+    return api.ok(res, result);
   } catch (error) {
     return api.error(res, error, 500);
   }
@@ -107,4 +148,6 @@ module.exports = {
   insertType,
   updateType,
   deleteType,
+  insertDataStructure,
+  insertTblDetail,
 };
