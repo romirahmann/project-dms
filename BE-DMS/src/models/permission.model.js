@@ -6,7 +6,6 @@ const getAll = async () =>
       "p.permissionDocId",
       "p.classificationId",
       "p.grupId",
-      "p.grupId",
       "p.updateAt",
       "p.view",
       "p.edit",
@@ -30,7 +29,6 @@ const getById = async (id) =>
     .select(
       "p.permissionDocId",
       "p.classificationId",
-      "p.grupId",
       "p.grupId",
       "p.updateAt",
       "p.view",
@@ -56,7 +54,6 @@ const getByClassificationGrup = async (classificationId, grupId) =>
       "p.permissionDocId",
       "p.classificationId",
       "p.grupId",
-      "p.grupId",
       "p.updateAt",
       "p.view",
       "p.edit",
@@ -78,7 +75,7 @@ const getByClassificationGrup = async (classificationId, grupId) =>
     .andWhere("p.grupId", grupId);
 const insert = async (data) => await db("tbl_permission_doc").insert(data);
 const update = async (id, data) =>
-  await db("tbl_permession").where("permissionId", id).update(data);
+  await db("tbl_permission_doc").where("permissionId", id).update(data);
 const del = async (id) =>
   await db("tbl_permission_doc").where("permissionId", id).delete();
 

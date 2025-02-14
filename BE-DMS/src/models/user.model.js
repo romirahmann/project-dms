@@ -10,14 +10,15 @@ const getAll = async () =>
       "u.email",
       "u.fullname",
       "u.grupId",
-      "u.statusId",
+      "u.isActive",
+      "t.tenantName",
       "g.grupName",
-      "g.grupDescription",
-      "s.statusName"
+      "g.grupDescription"
     )
     .from("tbl_users as u")
     .join("tbl_grup_user as g", "u.grupId", "g.grupId")
-    .leftJoin("tbl_status as s", "u.statusId", "s.statusId");
+    .innerJoin("tbl_tenants as t", "t.tenantId", "u.tenantId");
+
 const getById = async (id) =>
   await db
     .select(
@@ -27,14 +28,14 @@ const getById = async (id) =>
       "u.email",
       "u.fullname",
       "u.grupId",
-      "u.statusId",
+      "u.isActive",
+      "t.tenantName",
       "g.grupName",
-      "g.grupDescription",
-      "s.statusName"
+      "g.grupDescription"
     )
     .from("tbl_users as u")
     .join("tbl_grup_user as g", "u.grupId", "g.grupId")
-    .leftJoin("tbl_status as s", "u.statusId", "s.statusId")
+    .innerJoin("tbl_tenants as t", "t.tenantId", "u.tenantId")
     .where("u.userId", id);
 const insert = async (data) => await db("tbl_users").insert(data);
 const update = async (id, data) =>

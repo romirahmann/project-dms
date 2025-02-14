@@ -9,13 +9,15 @@ const login = async (username) =>
       "u.email",
       "u.fullname",
       "u.grupId",
+      "u.tenantId",
       "g.grupName",
-      "g.grupDescription"
+      "g.grupDescription",
+      "t.tenantName"
     )
     .from("tbl_users as u")
     .join("tbl_grup_user as g", "u.grupId", "g.grupId")
     .where("username", username)
-    .andWhere("u.statusId", 1);
+    .andWhere("u.isActive", 1);
 
 module.exports = {
   login,

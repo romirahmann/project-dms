@@ -196,5 +196,35 @@
     "path": "/details/:classificationId",
     "method": "get",
     "controller": "ClassificationController.getDetailsByClassification"
+  },
+  {
+    "path": "/tenants",
+    "method": "get",
+    "controller": "TenantController.getAllTenant"
+  },
+  {
+    "path": "/tenant/:id",
+    "method": "get",
+    "controller": "TenantController.getTenantById"
+  },
+  {
+    "path": "/tenant/:id",
+    "method": "put",
+    "controller": "TenantController.updateTenant"
+  },
+  {
+    "path": "/softdelete-tenant/:id",
+    "method": "put",
+    "controller": "TenantController.softDeleteTenant"
+  },
+  {
+    "path": "/tenant",
+    "method": "post",
+    "controller": "TenantController.addTenant"
+  },
+  {
+    "path": "/tenant/:id",
+    "method": "delete",
+    "controller": "TenantController.deleteTenant"
   }
 ]

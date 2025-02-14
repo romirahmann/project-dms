@@ -6,30 +6,22 @@ const getAll = async () =>
       "c.cabinetId",
       "c.cabinetName",
       "c.cabinetDescription",
-      "c.licenseId",
-      "c.statusId",
-      "l.licenseCode",
-      "l.licenseName",
-      "l.licenseExpired",
-      "l.licenseDescription"
+      "c.isActive",
+      "t.tenantName"
     )
     .from("tbl_cabinet as c")
-    .join("tbl_license as l", "l.licenseId", "c.licenseId");
+    .join("tbl_tenants as t", "t.tenantId", "c.tenantId");
 const getById = async (id) =>
   await db
     .select(
       "c.cabinetId",
       "c.cabinetName",
       "c.cabinetDescription",
-      "c.licenseId",
-      "c.statusId",
-      "l.licenseCode",
-      "l.licenseName",
-      "l.licenseExpired",
-      "l.licenseDescription"
+      "c.isActive",
+      "t.tenantName"
     )
     .from("tbl_cabinet as c")
-    .join("tbl_license as l", "l.licenseId", "c.licenseId")
+    .join("tbl_tenants as t", "t.tenantId", "c.tenantId")
     .where("c.cabinetId", id);
 const insert = async (data) => await db("tbl_cabinet").insert(data);
 const update = async (id, data) =>
