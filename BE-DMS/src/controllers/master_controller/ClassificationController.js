@@ -22,7 +22,7 @@ const insertClassification = async (req, res) => {
   const newData = req.body;
   try {
     let classificationId = await model.insertClassification(newData);
-    let data = await model.addNewStructure(classificationId);
+    let data = await model.addTblStructure(classificationId);
     return api.ok(res, { messege: "Add Classification Successfully!" });
   } catch (error) {
     return api.error(res, error, 500);
@@ -49,7 +49,7 @@ const deleteClassification = async (req, res) => {
   }
 };
 
-const insertDataStructure = async (req, res) => {
+const insertFieldStructure = async (req, res) => {
   const { classificationId } = req.params;
   const newData = req.body;
   const formatStructureName = (name) => {
@@ -60,14 +60,14 @@ const insertDataStructure = async (req, res) => {
     let structureIsExict = await model.structureExist(classificationId);
 
     if (structureIsExict) {
-      let result = await model.insertDataStructure(classificationId, newData);
+      let result = await model.insertFieldStructure(classificationId, newData);
       newData.name = formatStructureName(newData.name);
       let detailIsExist = await model.detailExist(classificationId);
       if (!detailIsExist) {
-        let result = await model.addDetail(classificationId, newData);
+        let result = await model.addTblDetail(classificationId, newData);
         return api.ok(res, result);
       } else {
-        let result = await model.insertDataDetail(classificationId, newData);
+        let result = await model.addColumnDetail(classificationId, newData);
         return api.ok(res, result);
       }
     } else {
@@ -82,8 +82,49 @@ const insertTblDetail = async (req, res) => {
   const { classificationId } = req.params;
   const data = req.body;
   try {
-    let result = await model.insertDetail(classificationId, data);
+    let result = await model.insertFieldDetail(classificationId, data);
     return api.ok(res, result);
+  } catch (error) {
+    return api.error(res, error, 500);
+  }
+};
+
+const getStructuresByClassification = async (req, res) => {
+  const { classificationId } = req.params;
+  try {
+    let data = await model.getStructureByClassification(classificationId);
+    return api.ok(res, data);
+  } catch (error) {
+    return api.error(res, error, 500);
+  }
+};
+
+const updateFieldStructure = async (req, res) => {
+  const { classificationId, structureId } = req.params;
+  const newData = req.body;
+  const structureData = await model.getStructureById(structureId);
+  try {
+    let result = await model.updateFieldStructure(
+      classificationId,
+      structureId,
+      newData
+    );
+    let result2 = await model.updateColoumnDetail(
+      classificationId,
+      structureData.name,
+      newData
+    );
+    return api.ok(res, { result, result2 });
+  } catch (error) {
+    return api.error(res, error, 500);
+  }
+};
+
+const getDetailsByClassification = async (req, res) => {
+  const { classificationId } = req.params;
+  try {
+    let data = await model.getDetailByClassification(classificationId);
+    return api.ok(res, data);
   } catch (error) {
     return api.error(res, error, 500);
   }
@@ -148,6 +189,9 @@ module.exports = {
   insertType,
   updateType,
   deleteType,
-  insertDataStructure,
+  insertFieldStructure,
   insertTblDetail,
+  getStructuresByClassification,
+  getDetailsByClassification,
+  updateFieldStructure,
 };

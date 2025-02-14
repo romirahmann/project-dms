@@ -180,11 +180,21 @@
   {
     "path": "/structure/:classificationId",
     "method": "post",
-    "controller": "ClassificationController.insertDataStructure"
+    "controller": "ClassificationController.insertFieldStructure"
+  },
+  {
+    "path": "/structures/:classificationId",
+    "method": "get",
+    "controller": "ClassificationController.getStructuresByClassification"
   },
   {
     "path": "/detail/:classificationId",
     "method": "post",
     "controller": "ClassificationController.insertTblDetail"
+  },
+  {
+    "path": "/details/:classificationId",
+    "method": "get",
+    "controller": "ClassificationController.getDetailsByClassification"
   }
 ]

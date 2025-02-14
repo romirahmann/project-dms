@@ -11,16 +11,16 @@ const updateClassification = async (id, data) =>
 const delClassification = async (id) =>
   db("tbl_classification").where("classificationId", id).delete();
 
-async function addNewStructure(classificationId) {
+async function addTblStructure(classificationId) {
   await db.raw(
     `CREATE TABLE tbl_structure${classificationId} (structureId INT auto_increment PRIMARY KEY NOT NULL, name varchar(50) NOT NULL, type varchar(50) NOT NULL, fieldSize int NULL )`
   );
 }
 
-const insertDataStructure = async (classificationId, data) =>
+const insertFieldStructure = async (classificationId, data) =>
   await db(`tbl_structure${classificationId}`).insert(data);
 
-const addDetail = async (classificationId, data) =>
+const addTblDetail = async (classificationId, data) =>
   await db.raw(
     `CREATE TABLE tbl_detail${classificationId} (detailId INT auto_increment PRIMARY KEY NOT NULL, ${
       data.name
@@ -28,14 +28,14 @@ const addDetail = async (classificationId, data) =>
       data.type === "varchar" ? `(${data.fieldSize || 255})` : ""
     } NULL )`
   );
-const insertDataDetail = async (classificationId, data) =>
+const addColumnDetail = async (classificationId, data) =>
   await db.raw(
     `ALTER TABLE tbl_detail${classificationId} ADD COLUMN ${data.name} ${
       data.type
     }${data.type === "varchar" ? `(${data.fieldSize || 255})` : ""} NULL  `
   );
 
-const insertDetail = async (classificationId, data) =>
+const insertFieldDetail = async (classificationId, data) =>
   await db(`tbl_detail${classificationId}`).insert(data);
 
 const structureExist = async (classificationId) => {
@@ -61,6 +61,35 @@ const detailExist = async (classificationId) => {
   return result.count > 0;
 };
 
+const getStructureByClassification = async (classificationId) =>
+  await db.select("*").from(`tbl_structure${classificationId}`);
+
+const getStructureById = async (classificationId, structureId) =>
+  await db
+    .select("*")
+    .from(`tbl_structure${classificationId}`)
+    .where("structureId", structureId);
+
+const updateFieldStructure = async (classificationId, structureId, data) =>
+  await db(`tbl_structure${classificationId}`)
+    .where("structureId", structureId)
+    .update(data);
+
+const updateColoumnDetail = async (classificationId, dataName, data) =>
+  await db.raw(
+    `ALTER TABLE tbl_detail${classificationId} 
+    CHANGE COLUMN ${dataName} ${data.name} ${data.type}${
+      data.type === "varchar" ? `(${data.fieldSize || 255})` : ""
+    } NULL;`
+  );
+
+const getDetailByClassification = async (classificationId) =>
+  await db.select("*").from(`tbl_detail${classificationId}`);
+const updateDetail = async (classificationId, detailId, data) =>
+  await db(`tbl_detail${classificationId}`)
+    .where("detailId", detailId)
+    .update(data);
+
 // CRUD TYPE DATA
 const getAllType = async () => await db.select("*").from("tbl_typedata");
 const getTypeById = async (id) =>
@@ -81,11 +110,17 @@ module.exports = {
   insertType,
   updateType,
   delType,
-  addNewStructure,
+  addTblStructure,
   structureExist,
-  insertDataStructure,
-  addDetail,
+  insertFieldStructure,
+  addTblDetail,
   detailExist,
-  insertDataDetail,
-  insertDetail,
+  addColumnDetail,
+  insertFieldDetail,
+  getStructureByClassification,
+  getDetailByClassification,
+  updateFieldStructure,
+  updateDetail,
+  getStructureById,
+  updateColoumnDetail,
 };
