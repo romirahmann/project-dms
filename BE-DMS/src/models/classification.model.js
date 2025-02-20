@@ -85,6 +85,7 @@ const updateColoumnDetail = async (classificationId, dataName, data) =>
 
 const getDetailByClassification = async (classificationId) =>
   await db.select("*").from(`tbl_detail${classificationId}`);
+
 const updateDetail = async (classificationId, detailId, data) =>
   await db(`tbl_detail${classificationId}`)
     .where("detailId", detailId)

@@ -226,5 +226,16 @@
     "path": "/tenant/:id",
     "method": "delete",
     "controller": "TenantController.deleteTenant"
+  },
+  {
+    "path": "/upload-file",
+    "method": "post",
+    "controller": "UploadController.uploadFile",
+    "middleware": "upload.single('file')"
+  },
+  {
+    "path": "/file/:storedFilename",
+    "method": "get",
+    "controller": "UploadController.getFile"
   }
 ]
