@@ -8,10 +8,10 @@ const documentsFolder = path.join(__dirname, "../../documents");
 fs.ensureDir(documentsFolder);
 
 const uploadFile = async (req, res) => {
-  let newData = req.body;
-  let file = req.file;
-
   try {
+    let newData = req.body;
+    let file = req.file;
+
     if (!file) {
       return api.error(res, "File Not Found", 500);
     }
@@ -28,6 +28,8 @@ const uploadFile = async (req, res) => {
       mimetype: file.mimetype,
       size: file.size,
     };
+
+    console.log(fillData);
   } catch (e) {
     api.error(res, e, 500);
   }
@@ -38,11 +40,9 @@ const getFile = async (req, res) => {
     const storedFilename = req.params.storedFilename;
     const documentDir = path.join(__dirname, "../../documents");
     const filePath = path.join(documentDir, storedFilename);
-
     if (!fs.existsSync(filePath)) {
       return res.status(404).json({ message: "File not found" });
     }
-
     res.setHeader("Content-Type", "application/pdf");
     res.setHeader(
       "Content-Disposition",
