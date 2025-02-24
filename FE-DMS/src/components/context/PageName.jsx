@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const PageName = createContext();
 
@@ -8,7 +8,13 @@ export function usePageName() {
 }
 
 export function PageNameProvider({ children }) {
-  const [pageName, setPageName] = useState("Dashboard");
+  const [pageName, setPageName] = useState(
+    () => localStorage.getItem("pageName") || "Dashboard"
+  );
+
+  useEffect(() => {
+    localStorage.setItem("pageName", pageName);
+  }, [pageName]);
 
   return (
     <>

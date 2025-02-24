@@ -2,48 +2,79 @@ import {
   createRouter,
   createRootRoute,
   createRoute,
-  createHistory,
 } from "@tanstack/react-router";
 import { Layout } from "../Layout";
 import { Homepage } from "../../pages/Homepage";
 import { SearchPage } from "../../pages/SearchPage";
+import { Login } from "../auth/Login";
+import { ProtectedRoute } from "./ProtectedRoute";
 
-// 1️⃣ Root Route
-const rootRoute = createRootRoute({
+// Root route utama (tanpa layout langsung)
+const rootRoute = createRootRoute();
+
+// Layout utama untuk halaman tertentu
+const layoutRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  id: "layout",
   component: Layout,
 });
 
-// 2️⃣ Child Routes
+// Routes yang menggunakan Layout
 const homeRoute = createRoute({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => layoutRoute,
   path: "/",
-  component: Homepage,
+  component: () => (
+    <ProtectedRoute>
+      <Homepage />
+    </ProtectedRoute>
+  ),
 });
 const searchRoute = createRoute({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => layoutRoute,
   path: "/search",
-  component: SearchPage,
+  component: () => (
+    <ProtectedRoute>
+      <SearchPage />
+    </ProtectedRoute>
+  ),
 });
 const filesRoute = createRoute({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => layoutRoute,
   path: "/files",
-  component: SearchPage,
+  component: () => (
+    <ProtectedRoute>
+      <Homepage />
+    </ProtectedRoute>
+  ),
 });
 const classificationRoute = createRoute({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => layoutRoute,
   path: "/classifications",
-  component: SearchPage,
+  component: () => (
+    <ProtectedRoute>
+      <Homepage />
+    </ProtectedRoute>
+  ),
 });
 
-// 3️⃣ Gabungkan Semua Routes
+// Route untuk Login (tanpa Layout)
+const loginRoute = createRoute({
+  getParentRoute: () => rootRoute, // Tidak menggunakan layoutRoute
+  path: "/login",
+  component: Login,
+});
+
+// Gabungkan semua route dalam satu tree
 const routeTree = rootRoute.addChildren([
-  homeRoute,
-  searchRoute,
-  filesRoute,
-  classificationRoute,
+  layoutRoute.addChildren([
+    homeRoute,
+    searchRoute,
+    filesRoute,
+    classificationRoute,
+  ]),
+  loginRoute, // Login tetap di root, jadi tidak pakai layout
 ]);
 
-// 4️⃣ Buat Router dengan `createHistory`
 export const router = createRouter({
   routeTree,
 });

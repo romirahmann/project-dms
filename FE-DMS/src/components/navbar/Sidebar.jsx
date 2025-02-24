@@ -6,65 +6,75 @@ import clsx from "clsx";
 export function Sidebar({ isOpen }) {
   const { setPageName } = usePageName();
   const { location } = useRouterState();
+
   return (
-    <>
-      <aside
-        className="fixed top-0 h-screen shadow-slate-900 shadow-2xl left-0 z-40 w-64 "
-        aria-label="Sidebar"
-      >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-          <div className="btn-close flex sm:hidden">
-            <button onClick={isOpen} className="ms-auto p-1">
-              <img src="/icons/close.svg" className="w-5 bg-black" alt="" />
-            </button>
-          </div>
-          <div className="brand flex place-items-center mt-4 ">
-            <div className="imgBrand">
-              <img src="/icons/brand.png" className="w-10" alt="" />
-            </div>
-            <div className="brandName ms-2 font-bold text-3xl">
-              <span>Kloudia</span>
-            </div>
-          </div>
-          <ul className="space-y-2 mt-10">
-            {menuItems.map(({ name, path, icon }) => {
-              const isActive = location.pathname === path;
-              return (
-                <li key={name}>
-                  <Link
-                    to={path}
-                    onClick={() => {
-                      setPageName(name);
-                      isOpen;
-                    }}
-                    className={clsx(
-                      "flex items-center p-2 rounded-lg transition-colors",
-                      "text-gray-900 dark:text-white hover:bg-blue-800 hover:text-white",
-                      { "bg-blue-800 text-white": isActive }
-                    )}
-                    aria-current={isActive ? "page" : undefined}
-                  >
-                    <span className="w-6 h-6 text-blue-800 dark:text-gray-400 group-hover:text-white">
-                      {icon}
-                    </span>
-                    <span className="ms-3">{name}</span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
+    <aside
+      className="fixed top-0 left-0 z-40 w-64 h-screen shadow-2xl shadow-slate-900"
+      aria-label="Sidebar"
+    >
+      <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+        {/* Tombol Close */}
+        <div className="btn-close flex sm:hidden">
+          <button onClick={() => isOpen()} className="ms-auto p-1">
+            <img src="/icons/close.svg" className="w-5 bg-black" alt="Close" />
+          </button>
         </div>
-      </aside>
-    </>
+
+        {/* Brand Logo */}
+        <div className="brand flex items-center mt-4">
+          <img src="/icons/brand.png" className="w-10" alt="Brand" />
+          <span className="ms-2 font-bold text-3xl">Kloudia</span>
+        </div>
+
+        {/* Menu Sidebar */}
+        <ul className="mt-10 space-y-2">
+          {menuItems.map(({ name, path, icon }) => {
+            const isActive = location.pathname === path;
+
+            return (
+              <li key={name}>
+                <Link
+                  to={path}
+                  onClick={() => {
+                    setPageName(name);
+                    isOpen();
+                  }}
+                  className={clsx(
+                    "flex items-center p-2 rounded-lg transition-colors",
+                    "text-gray-900 dark:text-white hover:bg-blue-800 hover:text-white",
+                    { "bg-blue-800 text-white": isActive }
+                  )}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  {/* Ikon dengan warna dinamis */}
+                  <span
+                    className={clsx(
+                      "w-6 h-6 transition duration-75",
+                      isActive
+                        ? "text-white"
+                        : "text-blue-800 dark:text-gray-400 hover:text-white dark:group-hover:text-white"
+                    )}
+                  >
+                    {icon}
+                  </span>
+                  <span className="ms-3">{name}</span>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </aside>
   );
 }
+
 const menuItems = [
   {
     name: "Dashboard",
     path: "/",
     icon: (
       <svg
-        className="w-5 h-5 text-blue-800 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"
+        className="w-5 h-5"
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
@@ -83,7 +93,7 @@ const menuItems = [
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         fill="currentColor"
-        className="h-6 text-blue-800 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"
+        className="h-6"
       >
         <path d="M8.25 10.875a2.625 2.625 0 1 1 5.25 0 2.625 2.625 0 0 1-5.25 0Z" />
         <path
@@ -102,7 +112,7 @@ const menuItems = [
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         fill="currentColor"
-        className="h-6 text-blue-800 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"
+        className="h-6"
       >
         <path d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0 0 16.5 9h-1.875a1.875 1.875 0 0 1-1.875-1.875V5.25A3.75 3.75 0 0 0 9 1.5H5.625Z" />
         <path d="M12.971 1.816A5.23 5.23 0 0 1 14.25 5.25v1.875c0 .207.168.375.375.375H16.5a5.23 5.23 0 0 1 3.434 1.279 9.768 9.768 0 0 0-6.963-6.963Z" />
@@ -117,7 +127,7 @@ const menuItems = [
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         fill="currentColor"
-        className="h-6 text-blue-800 transition duration-75 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"
+        className="h-6 "
       >
         <path
           fillRule="evenodd"

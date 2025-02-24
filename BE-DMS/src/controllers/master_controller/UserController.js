@@ -44,7 +44,7 @@ const updateUser = async (req, res) => {
 // GRUP
 const insertGrup = async (req, res) => {
   const newGrup = req.body;
-  console.log(newGrup);
+
   try {
     let data = await model.insertGrup(newGrup);
     return api.ok(res, data);

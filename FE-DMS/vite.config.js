@@ -7,5 +7,6 @@ export default defineConfig({
   server: {
     host: "192.168.9.192",
     port: 2500,
+    historyApiFallback: true,
   },
 });

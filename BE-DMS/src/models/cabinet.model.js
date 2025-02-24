@@ -2,24 +2,12 @@ const db = require("../database/db.config");
 
 const getAll = async () =>
   await db
-    .select(
-      "c.cabinetId",
-      "c.cabinetName",
-
-      "c.isActive",
-      "t.tenantName"
-    )
+    .select("c.cabinetId", "c.cabinetName", "c.isActive", "t.tenantName")
     .from("tbl_cabinets as c")
     .join("tbl_tenants as t", "t.tenantId", "c.tenantId");
 const getById = async (id) =>
   await db
-    .select(
-      "c.cabinetId",
-      "c.cabinetName",
-
-      "c.isActive",
-      "t.tenantName"
-    )
+    .select("c.cabinetId", "c.cabinetName", "c.isActive", "t.tenantName")
     .from("tbl_cabinets as c")
     .join("tbl_tenants as t", "t.tenantId", "c.tenantId")
     .where("c.cabinetId", id);

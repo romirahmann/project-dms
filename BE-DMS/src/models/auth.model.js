@@ -16,6 +16,7 @@ const login = async (username) =>
     )
     .from("tbl_users as u")
     .join("tbl_grup_user as g", "u.grupId", "g.grupId")
+    .innerJoin("tbl_tenants as t", "u.tenantId", "t.tenantId")
     .where("username", username)
     .andWhere("u.isActive", 1);
 
