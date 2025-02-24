@@ -9,7 +9,11 @@ export default {
     flowbite.content(),
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        primary: ["Poppins", "arial", "sans-serif"],
+      },
+    },
   },
   plugins: [flowbite.plugin()],
 };
