@@ -11,7 +11,7 @@ export function Topbar() {
 
   useEffect(() => {
     setUserData(JSON.parse(localStorage.getItem("userData")));
-  }, [userData]);
+  }, []);
 
   const handleOpenProfile = () => {
     setOpenMenuProfile(!openMenuProfile);
@@ -30,14 +30,20 @@ export function Topbar() {
       <div className="container-fluid">
         <div className="rounded-lg bg-white p-1 md:p-3 flex content-center">
           <div className="brand flex place-items-center">
-            <div className="brandName ms-2 font-bold md:text-2xl">
+            <div className="brandName ms-2 font-bold md:text-3xl">
               {/* Menampilkan pageName yang sudah tersimpan */}
               <span>{pageName}</span>
             </div>
           </div>
 
           <div className="user ms-auto me-5 flex items-center">
-            <span className="me-2">{userData?.username || "Guest"}</span>
+            <div
+              className="flex flex-col items-end me-2
+            "
+            >
+              <span className="text-sm">{userData?.fullname || "Guest"}</span>
+              <span className="text-sm">{userData?.tenantName || "Guest"}</span>
+            </div>
             <div className="profile relative  ">
               <button
                 onClick={() => handleOpenProfile()}
@@ -50,20 +56,33 @@ export function Topbar() {
                 />
               </button>
               {openMenuProfile && (
-                <div className="absolute shadow-black shadow-md right-3 w-[12em] rounded-xl menuProfil bg-white p-5">
+                <div className="absolute shadow-black shadow-md right-3 w-[15em] rounded-xl menuProfil bg-white p-5">
                   <div className="Title">
                     <p className="font-bold">PROFILE</p>
                   </div>
                   <hr />
-                  <div className="detail mt-4 md:mt-3">
-                    <p className="text-sm">
+                  <div className="detail mt-4 p-2 md:mt-3">
+                    <p className="text-sm my-1">
+                      {" "}
+                      <span className="font-bold ">Name:</span>{" "}
+                      {userData.fullname}
+                    </p>
+                    <p className="text-sm my-1">
                       {" "}
                       <span className="font-bold">Username:</span>{" "}
                       {userData.username}
                     </p>
-                    <p className="text-sm">
+                    <p className="text-sm my-1">
+                      <span className="font-bold">Tenant:</span>{" "}
+                      {userData.tenantName}
+                    </p>
+                    <p className="text-sm my-1">
                       <span className="font-bold">Group:</span>{" "}
                       {userData.grupName}
+                    </p>
+                    <p className="text-sm my-1">
+                      <span className="font-bold">Role:</span>{" "}
+                      {userData.roleName}
                     </p>
                   </div>
                   <div className="md:mt-5 mt-4 flex flex-col">

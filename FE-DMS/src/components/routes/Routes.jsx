@@ -8,6 +8,7 @@ import { Homepage } from "../../pages/Homepage";
 import { SearchPage } from "../../pages/SearchPage";
 import { Login } from "../auth/Login";
 import { ProtectedRoute } from "./ProtectedRoute";
+import { ConfigurationsLayouts } from "../../pages/configurations/ConfigurationLayouts";
 
 // Root route utama (tanpa layout langsung)
 const rootRoute = createRootRoute();
@@ -56,6 +57,19 @@ const classificationRoute = createRoute({
     </ProtectedRoute>
   ),
 });
+const configurationRoute = createRoute({
+  getParentRoute: () => layoutRoute,
+  path: "/configurations",
+  component: () => (
+    <ProtectedRoute>
+      <ConfigurationsLayouts />
+    </ProtectedRoute>
+  ),
+});
+const defaultConf = createRoute({
+  getParentRoute: () => configurationRoute,
+  path: "/configuration",
+});
 
 // Route untuk Login (tanpa Layout)
 const loginRoute = createRoute({
@@ -71,6 +85,7 @@ const routeTree = rootRoute.addChildren([
     searchRoute,
     filesRoute,
     classificationRoute,
+    configurationRoute.addChildren([defaultConf]),
   ]),
   loginRoute, // Login tetap di root, jadi tidak pakai layout
 ]);

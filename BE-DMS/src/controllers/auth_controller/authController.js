@@ -28,7 +28,10 @@ const login = async (req, res) => {
         email: user.email,
         grupId: user.grupId,
         grupName: user.grupName,
-        tentantName: user.tentantName,
+        tenantId: user.tenantId,
+        tenantName: user.tenantName,
+        roleId: user.roleId,
+        roleName: user.roleName,
       };
       const token = generateToken(payload);
       res.json({ token, user: payload });
