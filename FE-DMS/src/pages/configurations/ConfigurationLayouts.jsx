@@ -5,6 +5,7 @@ import clsx from "clsx";
 
 export function ConfigurationsLayouts() {
   const [userData, setUserData] = useState(null);
+
   const location = useLocation();
 
   useEffect(() => {
@@ -16,14 +17,15 @@ export function ConfigurationsLayouts() {
 
   return (
     <>
-      <div className="container-fluid p-4">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-10">
+      <div className="container-fluid p-5 lg:p-0">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-2 lg:gap-5 ">
           {/* Sidebar Navigation */}
-          <div className="navConf min-h-screen p-5 rounded-r-3xl bg-white">
-            <div className="confSystem">
-              <h1 className="mb-2 font-bold text-xl">Configuration Menu</h1>
-              <hr />
+          <div className="navConf p-5 lg:p-0 ">
+            <div className="confSystem lg:min-h-[55em] p-5 lg:rounded-tr-[2em] bg-white dark:bg-gray-800">
               <div className="menuConf mt-5">
+                <h1 className="mb-5 border-b-4 text-center font-bold text-xl text-gray-800 dark:text-white">
+                  Configuration Menu
+                </h1>
                 <ul className="menuConfList space-y-2">
                   {MenuConf.filter(({ role }) => {
                     if (!userData) return false;
@@ -67,13 +69,13 @@ export function ConfigurationsLayouts() {
           </div>
 
           {/* Content Area */}
-          <div className="col-span-4  rounded-3xl p-5">
+          <div className="lg:col-span-4 rounded-3xl mt-5 md:mt-0 md:p-3">
             {isDefaultPage ? (
-              <div className="bg-gray-100  content-center p-10 rounded-lg shadow-md text-center">
-                <h2 className="text-2xl font-bold">
+              <div className="bg-gray-100 dark:bg-gray-800 lg:mt-12 content-center p-10 rounded-lg shadow-md text-center">
+                <h2 className="text-2xl dark:text-white font-bold">
                   Configuration System Kloudia
                 </h2>
-                <p className="text-gray-600 mt-2">
+                <p className="text-gray-600 dark:text-gray-400 mt-2">
                   Silakan pilih salah satu menu di sidebar untuk konfigurasi
                   sistem.
                 </p>

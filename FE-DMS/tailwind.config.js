@@ -8,10 +8,14 @@ export default {
     "node_modules/flowbite/**/*.js",
     flowbite.content(),
   ],
+  darkMode: "class",
   theme: {
     extend: {
       fontFamily: {
         primary: ["Poppins", "arial", "sans-serif"],
+      },
+      backgroundImage: {
+        login: "url('/images/bg-login.jpg')",
       },
     },
   },

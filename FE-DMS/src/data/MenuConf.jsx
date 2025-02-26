@@ -1,7 +1,7 @@
 export const MenuConf = [
   {
     name: "Users",
-    path: "/",
+    path: "/configurations/users",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -17,7 +17,7 @@ export const MenuConf = [
 
   {
     name: "Group Users",
-    path: "/search",
+    path: "/configurations/group",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +37,7 @@ export const MenuConf = [
   },
   {
     name: "Permission",
-    path: "/files",
+    path: "/configurations/permession",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +56,7 @@ export const MenuConf = [
   },
   {
     name: "Server",
-    path: "/classifications",
+    path: "/configurations/server",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +76,7 @@ export const MenuConf = [
   },
   {
     name: "API",
-    path: "/",
+    path: "/configurations/api",
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"

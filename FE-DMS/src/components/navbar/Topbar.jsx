@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { usePageName } from "../context/PageName";
 import { useNavigate } from "@tanstack/react-router";
+import { Moon, Sun } from "lucide-react";
+import { useDarkMode } from "../context/useDarkMode";
 
 export function Topbar() {
   const { pageName } = usePageName();
   const [userData, setUserData] = useState(null);
   const [openMenuProfile, setOpenMenuProfile] = useState(false);
+  const { theme, toggleTheme } = useDarkMode();
 
   const navigate = useNavigate();
 
@@ -28,17 +31,28 @@ export function Topbar() {
   return (
     <div id="topbar">
       <div className="container-fluid">
-        <div className="rounded-lg bg-white p-1 md:p-3 flex content-center">
+        <div className="bg-gradient-to-r from-blue-900 to-blue-800 dark:bg-gradient-to-r dark:from-gray-900 dark:to-gray-800 p-1 md:p-3 flex content-center">
           <div className="brand flex place-items-center">
-            <div className="brandName ms-2 font-bold md:text-3xl">
+            <div className="brandName text-white  ms-2 font-bold md:text-xl">
               {/* Menampilkan pageName yang sudah tersimpan */}
               <span>{pageName}</span>
             </div>
           </div>
 
           <div className="user ms-auto me-5 flex items-center">
+            {/* Dark Mode Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="p-2 me-10 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-700 transition"
+            >
+              {theme === "dark" ? (
+                <Sun className="text-yellow-500" />
+              ) : (
+                <Moon className="text-gray-800" />
+              )}
+            </button>
             <div
-              className="flex flex-col items-end me-2
+              className="flex flex-col text-white items-end me-2
             "
             >
               <span className="text-sm">{userData?.fullname || "Guest"}</span>
@@ -56,7 +70,7 @@ export function Topbar() {
                 />
               </button>
               {openMenuProfile && (
-                <div className="absolute shadow-black shadow-md right-3 w-[15em] rounded-xl menuProfil bg-white p-5">
+                <div className="absolute z-50 shadow-gray-400 shadow-md right-3 w-[15em] rounded-xl menuProfil bg-white p-5">
                   <div className="Title">
                     <p className="font-bold">PROFILE</p>
                   </div>

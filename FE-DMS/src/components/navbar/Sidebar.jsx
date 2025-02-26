@@ -17,22 +17,19 @@ export function Sidebar({ isOpen }) {
   }, []);
 
   return (
-    <aside
-      className="fixed top-0 left-0 z-40 w-64 min-h-screen "
-      aria-label="Sidebar"
-    >
-      <div className="min-h-screen px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+    <aside className="fixed top-0 left-0 z-40 w-64  " aria-label="Sidebar">
+      <div className="min-h-screen px-3 py-4 overflow-y-auto bg-gradient-to-b from-blue-900  to-blue-800  dark:bg-gradient-to-r dark:from-gray-900 dark:via-gray-900 dark:to-gray-900 shadow-md shadow-gray-400">
         {/* Tombol Close */}
-        <div className="btn-close flex sm:hidden">
+        <div className="btn-close flex lg:hidden">
           <button onClick={() => isOpen()} className="ms-auto p-1">
-            <img src="/icons/close.svg" className="w-5 bg-black" alt="Close" />
+            <img src="/icons/close.svg" className="w-5 " alt="Close" />
           </button>
         </div>
 
         {/* Brand Logo */}
-        <div className="brand flex items-center mt-4">
+        <div className="brand mx-3 flex items-center mt-4">
           <img src="/icons/brand.png" className="w-10" alt="Brand" />
-          <span className="ms-2 font-bold text-3xl">Kloudia</span>
+          <span className="ms-2 text-white font-bold text-4xl">Kloudia</span>
         </div>
 
         {/* Menu Sidebar */}
@@ -54,7 +51,7 @@ export function Sidebar({ isOpen }) {
                   }}
                   className={clsx(
                     "flex items-center p-2 rounded-lg transition-colors",
-                    "text-gray-900 dark:text-white hover:bg-blue-800 group-hover:text-white",
+                    "text-gray-100 dark:text-white hover:bg-blue-800 group-hover:text-white",
                     { "bg-blue-800 text-white": isActive }
                   )}
                   aria-current={isActive ? "page" : undefined}
@@ -64,12 +61,13 @@ export function Sidebar({ isOpen }) {
                       "w-6 h-6 transition duration-75",
                       isActive
                         ? "text-white"
-                        : "text-blue-800 dark:text-gray-400 group-hover:text-white dark:group-hover:text-white"
+                        : "text-gray-400 dark:text-gray-500 group-hover:text-white dark:group-hover:text-white"
                     )}
                   >
                     {icon}
                   </span>
-                  <span className="ms-3">{name}</span>
+
+                  <span className="ms-3 text-white">{name}</span>
                 </Link>
               </li>
             );

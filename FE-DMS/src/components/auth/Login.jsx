@@ -37,9 +37,9 @@ export function Login() {
   };
 
   return (
-    <div className="container-fluid min-h-screen flex justify-center items-center ">
+    <div className="container-fluid bg-login min-h-screen flex justify-center items-center ">
       <div className="login p-2">
-        <div className="box-login bg-white  md:w-[80em] shadow-sm shadow-gray-700 rounded-lg md:rounded-l-lg grid grid-cols-1 md:grid-cols-2">
+        <div className="box-login bg-white/20 backdrop-blur-md  md:w-[80em] shadow-lg shadow-gray-900 rounded-lg md:rounded-l-lg grid grid-cols-1 md:grid-cols-2">
           <div className="form p-20 mb-10">
             {status && (
               <div
