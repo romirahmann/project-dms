@@ -42,7 +42,7 @@ const structureExist = async (classificationId) => {
   const tableName = `tbl_structure${classificationId}`;
 
   const result = await db("information_schema.tables")
-    .where("table_schema", "dms")
+    .where("table_schema", "kloudia")
     .andWhere("table_name", tableName)
     .count("* as count")
     .first();
@@ -53,7 +53,7 @@ const detailExist = async (classificationId) => {
   const tableName = `tbl_detail${classificationId}`;
 
   const result = await db("information_schema.tables")
-    .where("table_schema", "dms")
+    .where("table_schema", "kloudia")
     .andWhere("table_name", tableName)
     .count("* as count")
     .first();

@@ -1,23 +1,56 @@
+/* eslint-disable no-unused-vars */
+
 import axios from "axios";
 import { Pagination } from "flowbite-react";
 import { useEffect, useState } from "react";
+import { SearchComponent } from "../../components/table/SearchComponent";
+import websocketService from "../../services/WebSocket";
+import { PaginationComponent } from "../../components/table/Pagination";
+import { RemoveModal } from "../../components/modal/RemoveModal";
+import { motion } from "framer-motion";
 
 export function UserPage() {
-  const [users, setUsers] = useState(null);
+  const [users, setUsers] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [filteredData, setFilteredData] = useState([]);
+  const [paginatedData, setPaginatedData] = useState();
+
+  // MODAL REMOVE
+  const [showModalRemove, setShowModalRemove] = useState(false);
+  const [selectedUser, setSelectedUser] = useState();
 
   useEffect(() => {
     getUsers();
-  }, [users]);
+
+    websocketService.connect();
+    websocketService.addListener(handleWebSocket);
+
+    return () => {
+      websocketService.removeListener(handleWebSocket);
+    };
+  }, []);
 
   const getUsers = async () => {
     await axios
       .get("http://192.168.9.192:3000/api/master/users")
       .then((res) => {
         setUsers(res.data.data);
+        setFilteredData(res.data.data);
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const handleWebSocket = (data) => {
+    if (data.type === "UPDATE_USERS" || data.type === "CREATE_USERS") {
+      getUsers();
+    }
+  };
+
+  const handleRemove = (user) => {
+    showModalRemove ? setShowModalRemove(false) : setShowModalRemove(true);
+    setSelectedUser(user);
   };
 
   return (
@@ -36,34 +69,7 @@ export function UserPage() {
             Data User
           </h1>
           <div className=" dark:bg-gray-900 ms-auto">
-            <label htmlFor="table-search" className="sr-only">
-              Search
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                  />
-                </svg>
-              </div>
-              <input
-                type="text"
-                id="table-search"
-                className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-40 lg:w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Search user ..."
-              />
-            </div>
+            <SearchComponent result={setFilteredData} data={users} />
           </div>
         </div>
         <div className="usersTable">
@@ -92,44 +98,91 @@ export function UserPage() {
                 </tr>
               </thead>
               <tbody className="bg-white">
-                <tr className=" border-b dark:bg-gray-800 dark:border-gray-900 border-gray-300">
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                  >
-                    1
-                  </th>
-                  <td className="px-6 py-4">romirahman</td>
-                  <td className="px-6 py-4">Romi Rahman</td>
-                  <td className="px-6 py-4">romirahman03romi@gmail.com</td>
-                  <td className="px-6 py-4">IT</td>
-                  <td className="px-6 py-4">
-                    <button className="text-white font-medium px-3 py-2 bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-600 hover:bg-blue-900 rounded-md">
-                      Edit
-                    </button>
-                  </td>
-                </tr>
+                {paginatedData?.length > 0 ? (
+                  paginatedData.map((user, index) => (
+                    <tr
+                      key={user.userId}
+                      className=" border-b dark:bg-gray-800 dark:border-gray-900 border-gray-300"
+                    >
+                      <th
+                        scope="row"
+                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                      >
+                        {index + 1}
+                      </th>
+                      <td className="px-6 py-4">{user.username}</td>
+                      <td className="px-6 py-4">{user.fullname}</td>
+                      <td className="px-6 py-4">{user.email}</td>
+                      <td className="px-6 py-4">{user.grupName}</td>
+                      <td className="px-6 py-4">
+                        <button className="text-green-500 hover:bg-green-600 hover:text-white text-center font-medium px-1 py-1  rounded-md">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            className="size-5"
+                          >
+                            <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                            <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                          </svg>
+                        </button>
+                        <button
+                          onClick={() => handleRemove(user)}
+                          className="text-red-600 hover:bg-red-600 hover:text-white text-center font-medium px-1 py-1  rounded-md"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            className="size-5 "
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr className=" border-b dark:bg-gray-800 dark:border-gray-900 border-gray-300">
+                    <td
+                      scope="row"
+                      className="col-span-5 px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                    >
+                      <p>Users not found !</p>
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
             {/* Pagination */}
-            <div className="footer flex mt-5 items-center">
-              <div className="detail">
-                <p className="text-gray-600">
-                  Showing <strong></strong> to <strong></strong> of{" "}
-                  <strong></strong> files
-                </p>
-              </div>
-              <div className="pagination md:ms-auto">
-                <Pagination
-                  currentPage={0}
-                  totalPages={0}
-                  onPageChange={0}
-                  showIcons
-                />
-              </div>
-            </div>
+            <PaginationComponent
+              setPaginatedData={setPaginatedData}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              data={filteredData}
+            />
           </div>
         </div>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{
+            duration: 0.8,
+            delay: 0.5,
+            ease: [0, 0.71, 0.2, 1.01],
+          }}
+        >
+          {" "}
+          <RemoveModal
+            isOpen={showModalRemove}
+            onClose={() => setShowModalRemove(false)}
+            data={selectedUser}
+          />{" "}
+        </motion.div>
       </div>
     </>
   );

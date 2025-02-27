@@ -5,6 +5,11 @@
     "controller": "UserController.register"
   },
   {
+    "path": "/reset-password/:id",
+    "method": "put",
+    "controller": "UserController.resetPassword"
+  },
+  {
     "path": "/users",
     "method": "get",
     "controller": "UserController.getAllUser"

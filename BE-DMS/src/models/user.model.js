@@ -41,6 +41,13 @@ const insert = async (data) => await db("tbl_users").insert(data);
 const update = async (id, data) =>
   await db("tbl_users").where("userId", id).update(data);
 
+const existingUsername = async (username) => {
+  const [existingUser] = await db("tbl_users")
+    .count("username as count")
+    .where("username", username);
+
+  return existingUser.count > 0;
+};
 // USER GRUP
 const getAllGrup = async () =>
   await db
@@ -68,4 +75,5 @@ module.exports = {
   delGrup,
   getGrupById,
   update,
+  existingUsername,
 };

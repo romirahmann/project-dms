@@ -64,11 +64,15 @@ export function Login() {
             )}
             <div className="brand flex justify-center items-center">
               <img src="/icons/brand.png" className="w-12" alt="" />
-              <span className="text-3xl font-bold mx-2">Kloudia</span>
+              <span className="text-3xl text-white font-bold mx-2">
+                Kloudia
+              </span>
             </div>
             <hr className="mt-4" />
             <div className="formLogin mt-5 ">
-              <h1 className="text-xl text-center">Sign In</h1>
+              <h1 className="text-xl font-semibold text-gray-200 text-center">
+                Sign In
+              </h1>
 
               <form
                 className="max-w-sm mx-auto mt-5 flex flex-col"
@@ -77,7 +81,7 @@ export function Login() {
                 <div className="mb-5">
                   <label
                     htmlFor="username"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-sm font-medium text-gray-300 dark:text-white"
                   >
                     Username
                   </label>
@@ -93,7 +97,7 @@ export function Login() {
                 <div className="mb-5">
                   <label
                     htmlFor="password"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 text-sm font-medium text-gray-300 dark:text-white"
                   >
                     Password
                   </label>
@@ -109,10 +113,10 @@ export function Login() {
 
                 <button
                   type="submit"
-                  className="text-white bg-blue-800 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 flex "
+                  className="text-white group bg-blue-800 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 flex "
                 >
                   <span className="text-center">Submit</span>
-                  <span className="ms-auto">
+                  <span className="ms-auto me-3 group-hover:me-0 ">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
