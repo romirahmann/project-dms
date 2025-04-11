@@ -61,6 +61,15 @@ const detailExist = async (classificationId) => {
   return result.count > 0;
 };
 
+const getTableColumn = async (classificationId) => {
+  const result = await db("INFORMATION_SCHEMA.COLUMNS")
+    .select(db.raw("JSON_ARRAYAGG(COLUMN_NAME) AS column_names"))
+    .where("TABLE_SCHEMA", "kloudia")
+    .andWhere("TABLE_NAME", `tbl_detail${classificationId}`);
+
+  return result[0]?.column_names || [];
+};
+
 const getStructureByClassification = async (classificationId) =>
   await db.select("*").from(`tbl_structure${classificationId}`);
 
@@ -124,4 +133,5 @@ module.exports = {
   updateDetail,
   getStructureById,
   updateColoumnDetail,
+  getTableColumn,
 };

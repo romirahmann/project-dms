@@ -29,6 +29,7 @@ const getById = async (id) =>
       "u.fullname",
       "u.grupId",
       "u.isActive",
+      "u.password",
       "t.tenantName",
       "g.grupName",
       "g.grupDescription"

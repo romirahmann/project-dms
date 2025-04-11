@@ -1,0 +1,3 @@
+SYNTAX UNTUK MEMBUAT OBJECT DARI ARRAY
+
+const obj = Object.fromEntries(data.map((key) => [key, null]));

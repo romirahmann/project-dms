@@ -1,4 +1,5 @@
 const argon2 = require("argon2");
+const api = require("../tools/common");
 
 const Hashing = async (palinText) => {
   try {
@@ -22,14 +23,18 @@ const verifyHash = async (plainText, hashedText) => {
       typeof hashedText !== "string" ||
       hashedText.trim() === ""
     ) {
-      throw new Error("Invalid hash password: hash is empty or not a string");
+      return api.error(
+        { status: false },
+        "Invalid hash password: hash is empty or not a string",
+        500
+      );
     }
 
     const textIsMatch = await argon2.verify(hashedText, plainText);
     return textIsMatch;
   } catch (err) {
     console.log("Error verifying password:", err);
-    throw err;
+    return api.error({ status: false }, "Error verifying password", 500);
   }
 };
 module.exports = {

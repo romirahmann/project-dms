@@ -148,25 +148,23 @@ const resetPassword = async (req, res) => {
   console.log(userId, dataPassword);
   try {
     let dataUser = await model.getById(userId);
-    console.log(typeof dataUser.pass);
-    // let oldPasswordMatch = verifyHash(
-    //   dataPassword.oldPassword,
-    //   dataUser.password
-    // );
-    // if (!oldPasswordMatch) {
-    //   return api.error(res, "Password sebelumnya tidak sesuai!", 400);
-    // }
+    // console.log(dataUser[0].password);
+    let oldPasswordMatch = await verifyHash(
+      dataPassword.oldPassword,
+      dataUser[0].password
+    );
+    if (!oldPasswordMatch) {
+      return api.error(res, "Password sebelumnya tidak sesuai!", 400);
+    }
 
-    // console.log(typeof dataPassword.newPassword);
+    let newPassword = await Hashing(dataPassword.newPassword);
 
-    // let newPassword = Hashing(dataPassword.newPassword);
+    let data = {
+      password: newPassword,
+    };
 
-    // let data = {
-    //   password: newPassword,
-    // };
-
-    // let result = await model.update(userId, data);
-    // return api.ok(res, result);
+    let result = await model.update(userId, data);
+    return api.ok(res, result);
   } catch {
     return api.error(res, "Internal Server Error", 500);
   }
